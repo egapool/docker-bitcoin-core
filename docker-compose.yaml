@@ -7,5 +7,21 @@ services:
       -printtoconsole
       -regtest=1
       -deprecatedrpc=accounts
-    # volumes:
-    #   - "./data:/home/bitcoin/.bitcoin"
+      -rpcuser="devuser"
+      -rpcpassword="devpass"
+      -rpcallowip=0.0.0.0/0
+      -zmqpubrawblock=tcp://0.0.0.0:28332
+      -zmqpubrawtx=tcp://0.0.0.0:28333
+  lnd:
+    build: lnd
+    container_name: lnd
+    environment:
+      - RPCUSER
+      - RPCPASS
+      - NETWORK
+      - DEBUG
+      - ZMQBLOCKPORT
+      - ZMQTXPORT
+    links:
+        - "bitcoin-core:blockchain"
+    entrypoint: ["./start-lnd.sh"]

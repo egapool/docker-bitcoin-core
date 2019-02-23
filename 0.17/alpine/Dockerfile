@@ -113,7 +113,7 @@ COPY docker-entrypoint.sh /entrypoint.sh
 
 VOLUME ["/home/bitcoin/.bitcoin"]
 
-EXPOSE 8332 8333 18332 18333 18444
+EXPOSE 8332 8333 18332 18333 18444 18443 28332 28333
 
 ENTRYPOINT ["/entrypoint.sh"]
 

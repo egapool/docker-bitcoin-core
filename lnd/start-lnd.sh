@@ -42,22 +42,23 @@ set_default() {
 RPCUSER=$(set_default "$RPCUSER" "devuser")
 RPCPASS=$(set_default "$RPCPASS" "devpass")
 DEBUG=$(set_default "$DEBUG" "debug")
-NETWORK=$(set_default "$NETWORK" "simnet")
+NETWORK=$(set_default "$NETWORK" "regtest")
 CHAIN=$(set_default "$CHAIN" "bitcoin")
-BACKEND="btcd"
-if [[ "$CHAIN" == "litecoin" ]]; then
-    BACKEND="ltcd"
-fi
+ZMQBLOCKPORT=$(set_default "$ZMQBLOCKPORT" "28332")
+ZMQTXPORT=$(set_default "$ZMQTXPORT" "28333")
+BACKEND="bitcoind"
+RPCHOST=blockchain
 
 exec lnd \
     --noseedbackup \
     --logdir="/data" \
     "--$CHAIN.active" \
     "--$CHAIN.$NETWORK" \
-    "--$CHAIN.node"="btcd" \
-    "--$BACKEND.rpccert"="/rpc/rpc.cert" \
+    "--$CHAIN.node"="$BACKEND" \
     "--$BACKEND.rpchost"="blockchain" \
     "--$BACKEND.rpcuser"="$RPCUSER" \
     "--$BACKEND.rpcpass"="$RPCPASS" \
+    "--$BACKEND.zmqpubrawblock"="tcp://${RPCHOST}:28332" \
+    "--$BACKEND.zmqpubrawtx"="tcp://${RPCHOST}:28333" \
     --debuglevel="$DEBUG" \
     "$@"
