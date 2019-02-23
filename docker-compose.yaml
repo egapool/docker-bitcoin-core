@@ -6,5 +6,6 @@ services:
     command:
       -printtoconsole
       -regtest=1
+      -deprecatedrpc=accounts
     # volumes:
     #   - "./data:/home/bitcoin/.bitcoin"
