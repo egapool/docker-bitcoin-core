@@ -1,0 +1,10 @@
+version: '3'
+services:
+  bitcoin-core:
+    build: 0.17/alpine
+    container_name: bitcoin-server
+    command:
+      -printtoconsole
+      -regtest=1
+    # volumes:
+    #   - "./data:/home/bitcoin/.bitcoin"
