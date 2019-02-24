@@ -51,3 +51,34 @@ $docker exec --user bitcoin bitcoin-server bitcoin-cli -regtest generatetoaddres
 $docker exec --user bitcoin bitcoin-server bitcoin-cli -regtest generate 100
 ```
 マイニング報酬は100ブロック経過後付与される
+
+## LND
+### Generate new address in lightning wallet and get BTC by mining
+```
+// host
+$ docker exec -it alice bash
+
+// container
+bash-4.4# lncli --macaroonpath=/root/.lnd/data/chain/bitcoin/regtest/admin.macaroon newaddress np2wkh
+xxxxxxxxx-address-xxxxxxxxxxxx
+```
+
+At another terminal
+
+```
+// host
+$ docker exec --user bitcoin bitcoin-server bitcoin-cli -regtest generatetoaddress 101 xxxxxxxxx-address-xxxxxxxxxxxx
+$ docker exec -it alice bash
+
+// container
+bash-4.4# lncli --macaroonpath=/root/.lnd/data/chain/bitcoin/regtest/admin.macaroon walletbalance
+{
+    "total_balance": "5000000000",
+    "confirmed_balance": "5000000000",
+    "unconfirmed_balance": "0"
+}
+```
+
+
+
+
