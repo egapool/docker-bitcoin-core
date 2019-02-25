@@ -2,8 +2,8 @@ FROM golang:1.11-alpine as builder
 
 MAINTAINER Olaoluwa Osuntokun <lightning.engineering>
 
-ENV LND_VERSION=v0.5.2
-RUN wget https://github.com/lightningnetwork/lnd/releases/download/v0.5.2-beta/lnd-linux-amd64-${LND_VERSION}-beta.tar.gz
+ENV LND_VERSION=v0.5
+RUN wget https://github.com/lightningnetwork/lnd/releases/download/${LND_VERSION}-beta/lnd-linux-amd64-${LND_VERSION}-beta.tar.gz
 RUN tar -xzf *.tar.gz
 RUN cp lnd-linux-amd64-${LND_VERSION}-beta/* /go/bin
 
@@ -25,6 +25,10 @@ FROM alpine as final
 # Expose lnd ports (server, rpc).
 EXPOSE 9735 10009
 
+# TODO remove
+# web app
+EXPOSE 3000
+
 # Copy the binaries and entrypoint from the builder image.
 COPY --from=builder /go/bin/lncli /bin/
 COPY --from=builder /go/bin/lnd /bin/
@@ -32,6 +36,8 @@ COPY --from=builder /go/bin/lnd /bin/
 # Add bash.
 RUN apk add --no-cache \
     bash
+
+RUN apk add --update nodejs nodejs-npm
 
 # Copy the entrypoint script.
 COPY "start-lnd.sh" .

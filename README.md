@@ -79,6 +79,11 @@ bash-4.4# lncli --macaroonpath=/root/.lnd/data/chain/bitcoin/regtest/admin.macar
 }
 ```
 
+```
+bash-4.4# lncli --network=simnet openchannel --node_key=<bob_identity_pubkey> --local_amt=1000000
+bash-4.4# lncli --macaroonpath=/root/.lnd/data/chain/bitcoin/regtest/admin.macaroon connect <pub_key>@<remote_host>
+bash-4.4# lncli --macaroonpath=/root/.lnd/data/chain/bitcoin/regtest/admin.macaroon addinvoice --amt=100
+
 
 
 
